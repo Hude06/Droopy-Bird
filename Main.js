@@ -38,6 +38,7 @@ function draw_obstical(){
     ctx.fillRect(x,0,25,obsticaly)
     ctx.fillRect(x,obsticaly+100 , 25, 500)
 }
+
 function check_player() {
      if (birdy >= 375) {
         //console.log("Not Living")
@@ -74,7 +75,6 @@ function setup_keyboard() {
 function CheckKeyboard() {
     if(jump_ready) {
         //birdy = + 5
-        console.log("jumping")
         vy = vy - 2
         jump_ready = false
     }
@@ -86,6 +86,11 @@ function scrollX() {
 function CheckObstical(){ 
     if (x <= -1) {
         x = 400
+    }
+    console.log(x)
+    console.log(birdx)
+    if (x <=birdx*2){
+        console.log("Die")
     }
 }
 function drawframe() {
