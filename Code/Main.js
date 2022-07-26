@@ -47,7 +47,7 @@ function Die() {
     obstacle.x = 400;
     bird.vx = 0;
     bird.vy = 0;
-    bird.y = 250
+    bird.y = 250;
     PlayerScore = 0;
   }
 }

@@ -4,6 +4,6 @@ export function draw_player(ctx, bird) {
 }
 export function check_player(ctx, bird) {
   if (bird.y >= 475) {
-    bird.alive = false    
+    bird.alive = false;
   }
 }
