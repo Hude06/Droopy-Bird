@@ -1,119 +1,83 @@
-
-let birdx = 20
-let birdy = 20
-let vx = 0
-let vy = 0.005
-let ax = 0
-let ay = 0.02
+import {draw_player} from "./Player.js"
+import {check_player} from "./Player.js"
+import {draw_obstical} from "./Obstical.js"
+import {CheckObstical} from "./Obstical.js"
+import {CheckKeyboard} from "./Keyboard.js"
+import {Setup_Keyboard} from "./Keyboard.js"
+let bird = {
+    x:20,
+    y:20,
+    vx:0,
+    vy:0.005,
+    ax:0,
+    ay:0.02,
+    alive:true,
+    jump_ready: false,
+    keystate:{
+        'space':false,
+    }
+}
+let obstical = {
+    x:500,
+    y:0
+}
 let PlayerScore = 0
-let obsticalx = 500
-let obsticaly = 0
-let Die
 let ctx
 let scroll = true
-let jump_ready = false
-let keystate = {
-    'space':false,
-}
 function Generate_Randome_Num() {
-    obsticaly = (Math.floor(Math.random() * 480))
+    obstical.y = (Math.floor(Math.random() * 480))
 }
 function update_physics() {
-    vy = vy + ay
-    birdy = birdy + vy
+    bird.vy = bird.vy + bird.ay
+    bird.y = bird.y + bird.vy
 }
 function draw_background() {
     ctx.fillStyle = 'white'
     ctx.fillRect(0,0,500,500)
 }
-function draw_player() {
-    ctx.fillStyle = '#fce056';
-    ctx.fillRect(birdx, birdy, 25, 25);
-}
-function draw_obstical(){
-    ctx.fillStyle = '#5696fc';
-    ctx.fillRect(obsticalx,0,25,obsticaly)
-    ctx.fillRect(obsticalx,obsticaly+100 , 25, 500)
-}
-function check_player() {
-     if (birdy >= 475) {
-        vy = 0
-        ay = 0 
-    }
-}
-function setup_keyboard() {
-    window.addEventListener("keydown",(e) => {
-        if(e.repeat) return
-        if(e.code === 'Space') {
-            keystate.space = true
-            jump_ready = true
-        }
-    })
-    document.addEventListener("keyup",(e) => {
-        if(e.code === 'Space') {
-            keystate.space = false
-        }
-    })
-}
-function CheckKeyboard() {
-    if(jump_ready) {
-        vy = vy - 2
-        jump_ready = false
-    }
-}
+
 function scrollX() {
     if (scroll === true) {
-        obsticalx = obsticalx-1
-    }
-}
-function CheckObstical(){ 
-    // if x < -1, move column back to the right
-    if (obsticalx <= -1) {
-        obsticalx = 500
-    }
-    if (birdx >= obsticalx && birdx < obsticalx + 100){
-        if (birdy < obsticaly) {
-            Die = true                
-        }
-        if (birdy > obsticaly + 100) {
-            Die = true
+        obstical.x = obstical.x-1
+        if(bird.x == obstical.x) {
+            console.log("success")
+            PlayerScore += 1
         }
     }
 }
 function draw_overlay() {
-    if (Die === true) {
+    if (bird.alive === false) {
         ctx.fillStyle = 'red'
         ctx.font = '24pt sans-serif'
         ctx.fillText("You Died", 200,50)
         ctx.fillText("Click To Restart", 150,100)
         scroll = false
-        obsticalx = 500
-        vx = 0
-        vy = 0
+        obstical.x = 400
+        bird.vx = 0
+        bird.vy = 0
     }
 }
+const $ = (sel) => document.querySelector(sel)
 function score() {
-        const $ = (sel) => document.querySelector(sel)
-        score.innerText = "Score:"+ PlayerScore
+    $("#Score").innerText = "Score:"+ PlayerScore
 }
 function CheckTopWall(){
-    if (birdy <= 0) {
-        vy = 1
-        ay = 0 
+    if (bird.y <= 0) {
+        bird.vy = 1
     }
 }
 function drawframe() {
-    score()
     scrollX()
-    CheckKeyboard()
+    CheckKeyboard(ctx,bird)
     update_physics()
     draw_background()
-    draw_player()
-    check_player()
-    draw_obstical()
+    draw_player(ctx, bird)
+    check_player(ctx, bird)
+    draw_obstical(ctx, obstical)
     draw_overlay()
-    CheckObstical()
+    CheckObstical(ctx, obstical, bird)
     CheckTopWall()
+    score()
     window.requestAnimationFrame(drawframe)
 }
 function StartGame() {
@@ -121,7 +85,7 @@ function StartGame() {
     ctx = canvas.getContext('2d');
     Generate_Randome_Num()
     drawframe()
-    setup_keyboard()
+    Setup_Keyboard(ctx,bird)
 }
 StartGame()
 
