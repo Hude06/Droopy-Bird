@@ -1,4 +1,3 @@
-
 export function draw_player(ctx, bird, img) {
   ctx.fillStyle = "#fce056";
   ctx.imageSmoothingEnabled = false
