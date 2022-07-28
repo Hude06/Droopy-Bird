@@ -1,0 +1,20 @@
+{
+  "name": "game",
+  "version": "1.0.0",
+  "description": "This is Grumpy bird a version of flappy bird where you can collect coins and buy happiness. When you start off the bird is grumpy but then you have to buy happiness for him. You can buy more hearts strength flap power. You will also be able to buy accessories like helmets and other accessories.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hude06/Droopy-Bird.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hude06/Droopy-Bird/issues"
+  },
+  "homepage": "https://github.com/Hude06/Droopy-Bird#readme"
+}

@@ -1,5 +1,5 @@
 export function draw_obstacle(ctx, obstacle) {
-  ctx.fillStyle = "#5696fc";
+  ctx.fillStyle = "#4BAE4E";
   ctx.fillRect(obstacle.x, 0, 25, obstacle.y);
   ctx.fillRect(obstacle.x, obstacle.y + 100, 25, 500);
 }
@@ -9,6 +9,7 @@ export function CheckObstacle(ctx, obstacle, bird) {
   if (obstacle.x <= -1) {
     obstacle.x = 500;
   }
+
   if (bird.x >= obstacle.x && bird.x < obstacle.x + 100) {
     if (bird.y < obstacle.y) {
       bird.alive = false;
