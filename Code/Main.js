@@ -10,7 +10,8 @@ import { Generate_Random_Num } from "./Random-Num-Gen.js";
 import { draw_background } from "./Wall.js";
 let Flap = new Audio('/Sound/jump.wav');
 let Coin = new Audio('/Sound/Coin.wav');
-
+let BirdDie = new Audio('/Sound/hit.wav');
+let SoundPlay = false
 let bird = {
   x: 20,
   y: 20,
@@ -37,18 +38,35 @@ if(localStorage.getItem("Coin")) {
 let bird_image = new Image()
 let pipe_image = new Image()
 let pipe_headless = new Image()
+let GameOver = new Image()
+let base = new Image()
+let base_long = new Image()
+
+
+
 
 
 bird_image.src = "./Grafics/bird2.png"
 pipe_image.src = "./Grafics/pipe.png"
 pipe_headless.src = "./Grafics/pip-headles.png"
+GameOver.src = "./Grafics/gameover.png"
+base.src = "./Grafics/base.png"
+base_long.src = "./Grafics/base.png"
+
+
+
+
 
 
 
 let ctx;
 let scroll = true;
-function scrollX(Coin) {
+
+function scrollX(Coin,base) {
   if (scroll === true) {
+    ctx.drawImage(base, 0, 450)
+    ctx.drawImage(base_long, 200, 450)
+
     obstacle.x = obstacle.x - 1.5;
     if (PlayerScore < livePlayerScore) {
       PlayerScore += 1;
@@ -63,15 +81,22 @@ function scrollX(Coin) {
 }
 function Die() {
   if (bird.alive === false) {
-    ctx.fillStyle = "red";
     ctx.font = "24pt sans-serif";
-    ctx.fillText("You Died", 160, 50);
-    ctx.fillText("Click Enter To Restart", 70, 100);
+    ctx.drawImage(GameOver, 150,0)
+
     scroll = false;
-    obstacle.x = 400;
+    obstacle.x = 800;
     bird.vx = 0;
     bird.vy = 0;
-    bird.y = 250;
+    bird.y =8400;
+    if (SoundPlay === false) {
+      BirdDie.play();
+      SoundPlay = true
+    }
+    if (SoundPlay === true) {
+      return
+    }
+
   }
 }
 
@@ -86,11 +111,11 @@ function Lives(bird){
   $("#Lives").innerText = "Lives:" + bird.lives;
 }
 function drawframe() {
-  scrollX(Coin);
+  draw_background(ctx, bird, obstacle);
+  scrollX(Coin,base);
   Record(PlayerScore);
   CheckKeyboard(ctx, bird, obstacle);
   update_physics(ctx, bird, obstacle);
-  draw_background(ctx, bird, obstacle);
   draw_player(ctx, bird, bird_image);
   check_player(ctx, bird, obstacle);
   draw_obstacle(ctx, obstacle, pipe_image, pipe_headless);
@@ -109,5 +134,6 @@ function StartGame() {
   Generate_Random_Num(ctx, bird, obstacle);
   drawframe();
   Setup_Keyboard(ctx, bird, Flap);
+
 }
 StartGame();
