@@ -21,7 +21,6 @@ let base = new Image();
 let base_long = new Image();
 let Menu = new Image();
 
-
 bird_image.src = "./Grafics/bird2.png";
 pipe_image.src = "./Grafics/pipe.png";
 pipe_headless.src = "./Grafics/pip-headles.png";
@@ -54,14 +53,27 @@ if (localStorage.getItem("Coin")) {
   PlayerScore = parseInt(localStorage.getItem("Coin"));
 }
 
-
 let ctx;
 let scroll = true;
+let move = 0
+function MoveImage() {
+  if (bird.alive === true){
+    move = move - 1.5;
+    ctx.drawImage(base, 0 + move, 450);
+    ctx.drawImage(base_long, + move + 300, 450);
+    if (move <= -130) {
+      move = move + 130
+    }
+  }
+  console.log(move)
 
+  if (bird.alive === false) {
+    return
+  }
+
+}
 function scrollX(Coin, base) {
   if (scroll === true) {
-    ctx.drawImage(base, 0, 450);
-    ctx.drawImage(base_long, 200, 450);
 
     obstacle.x = obstacle.x - 1.5;
     if (PlayerScore < livePlayerScore) {
@@ -78,7 +90,6 @@ function Die() {
   if (bird.alive === false) {
     ctx.font = "24pt sans-serif";
     ctx.drawImage(GameOver, 150, 0);
-
     scroll = false;
     obstacle.x = 800;
     bird.vx = 0;
@@ -93,7 +104,7 @@ function Die() {
     }
   }
 }
-//FIXME
+
 const $ = (sel) => document.querySelector(sel);
 function score(hj) {
   $("#Score").innerText = "Score:" + hj;
@@ -116,9 +127,11 @@ function drawframe() {
   CheckObstacle(ctx, obstacle, bird);
   CheckTopWall(ctx, bird, obstacle);
   Lives(bird);
-  CheckBottomWall(ctx,bird);
+  CheckBottomWall(ctx, bird);
+  MoveImage()
   localStorage.setItem("Coin", PlayerScore);
   score(livePlayerScore);
+
 
   window.requestAnimationFrame(drawframe);
 }
