@@ -9,13 +9,11 @@ export function Setup_Keyboard(ctx, bird, Flap) {
   window.addEventListener("keydown", (e) => {
     if (e.repeat) return;
     if (e.code === "Enter") {
-      console.log("Enter was pressed")
+      console.log("Enter was pressed");
       bird.keystate.enter = true;
       if (bird.alive === false) {
-        document.location.reload(true)
+        document.location.reload(true);
       }
-
-
     }
 
     if (e.code === "Space") {
@@ -30,7 +28,6 @@ export function Setup_Keyboard(ctx, bird, Flap) {
     }
     if (e.code === "Enter") {
       bird.keystate.enter = false;
-
     }
   });
 }

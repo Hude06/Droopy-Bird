@@ -8,3 +8,9 @@ export function CheckTopWall(ctx, bird) {
     bird.vy = 1;
   }
 }
+
+export function CheckBottomWall (ctx, bird) {
+  if (bird.y >= 420) {
+    bird.alive = false;
+  }
+}

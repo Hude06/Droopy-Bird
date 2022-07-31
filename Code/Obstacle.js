@@ -1,15 +1,14 @@
-export function draw_obstacle(ctx, obstacle,pipe_image, pipe_headless) {
+export function draw_obstacle(ctx, obstacle, pipe_image, pipe_headless) {
   ctx.fillStyle = "#4BAE4E";
-  ctx.drawImage(pipe_image, obstacle.x, obstacle.y + 100)
-  ctx.drawImage(pipe_headless, obstacle.x, obstacle.y + 100 + 300)
-  ctx.save()
-  ctx.translate(obstacle.x,obstacle.y)
-  ctx.scale(1,-1)
-  ctx.drawImage(pipe_image, 0,0)
-  ctx.drawImage(pipe_headless, 0,0 + 300)
+  ctx.drawImage(pipe_image, obstacle.x, obstacle.y + 100);
+  ctx.drawImage(pipe_headless, obstacle.x, obstacle.y + 100 + 300);
+  ctx.save();
+  ctx.translate(obstacle.x, obstacle.y);
+  ctx.scale(1, -1);
+  ctx.drawImage(pipe_image, 0, 0);
+  ctx.drawImage(pipe_headless, 0, 0 + 300);
 
-  ctx.restore()
-
+  ctx.restore();
 }
 
 export function CheckObstacle(ctx, obstacle, bird) {
