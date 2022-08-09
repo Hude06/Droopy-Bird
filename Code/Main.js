@@ -8,7 +8,8 @@ import { update_physics } from "./Physics.js";
 import { Generate_Random_Num } from "./Random-Num-Gen.js";
 import { draw_background } from "./Wall.js";
 import { CheckBottomWall } from "./Wall.js";
-
+let BackgroundY = 0;
+let BackgroundX = 0;
 let Flap = new Audio("/Sound/jump.wav");
 let Coin = new Audio("/Sound/Coin.wav");
 let BirdDie = new Audio("/Sound/hit.wav");
@@ -20,6 +21,8 @@ let GameOver = new Image();
 let base = new Image();
 let base_long = new Image();
 let Menu = new Image();
+let Background = new Image();
+
 let Direction = true;
 bird_image.src = "./Grafics/bird2.png";
 pipe_image.src = "./Grafics/pipe.png";
@@ -28,25 +31,26 @@ GameOver.src = "./Grafics/gameover.png";
 base.src = "./Grafics/base.png";
 base_long.src = "./Grafics/base.png";
 Menu.src = "./Grafics/Menu.png";
+Background.src = "./Grafics/Background.png";
+
 // Returns a random integer from 0 to 9:
-function int(){
-  let integer = (Math.floor(Math.random() * (3 - 1) ) + 1)
-  console.log(integer)
-  if (integer === 1){
-    Direction = true
+function int() {
+  let integer = Math.floor(Math.random() * (3 - 1)) + 1;
+  console.log(integer);
+  if (integer === 1) {
+    Direction = true;
   }
   if (integer === 2) {
-    Direction = false
+    Direction = false;
   }
-
 }
 
-console.log(Direction)
+console.log(Direction);
 let bird = {
   Lives: 5,
   x: 20,
   y: 20,
-  vy: 0.4,
+  vy: 1,
   ay: 0.04,
   alive: true,
   jump_ready: false,
@@ -87,6 +91,8 @@ function MoveImage() {
 function scrollX(Coin, base) {
   if (scroll === true) {
     obstacle.x = obstacle.x - 3;
+    console.log(BackgroundX);
+
     if (PlayerScore < livePlayerScore) {
       PlayerScore += 1;
     }
@@ -94,16 +100,17 @@ function scrollX(Coin, base) {
       livePlayerScore += 1;
       Coin.play();
     }
+    ctx.drawImage(Background, BackgroundX, BackgroundY);
   }
 }
-function MoveObstical(obstacle) {
-  if (Direction === true) {
-    obstacle.y = obstacle.y + .5
 
+
+function MoveObstacle(obstacle) {
+  if (Direction === true) {
+    obstacle.y = obstacle.y + 0.5;
   }
   if (Direction === false) {
-    obstacle.y = obstacle.y - .5
-
+    obstacle.y = obstacle.y - 0.5;
   }
 }
 function Die() {
@@ -135,6 +142,7 @@ function Record(sc) {
 function Lives(bird) {
   $("#Lives").innerText = "Lives:" + bird.lives;
 }
+
 function drawframe() {
   draw_background(ctx, bird, obstacle);
   scrollX(Coin, base);
@@ -149,7 +157,7 @@ function drawframe() {
   Lives(bird);
   CheckBottomWall(ctx, bird);
   MoveImage();
-  MoveObstical(obstacle);
+  MoveObstacle(obstacle);
   localStorage.setItem("Coin", PlayerScore);
   score(livePlayerScore);
 

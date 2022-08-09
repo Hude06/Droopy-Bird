@@ -1,6 +1,7 @@
-export function draw_background(ctx, w) {
+export function draw_background(ctx,) {
   ctx.fillStyle = "white";
   ctx.fillRect(0, 0, 500, 500);
+
 }
 
 export function CheckTopWall(ctx, bird) {
