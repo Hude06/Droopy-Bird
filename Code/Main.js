@@ -50,7 +50,7 @@ let bird = {
   Lives: 5,
   x: 20,
   y: 20,
-  vy: 2,
+  vy: 4,
   ay: 0.05,
   alive: true,
   jump_ready: false,
