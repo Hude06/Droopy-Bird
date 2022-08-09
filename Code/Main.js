@@ -20,7 +20,7 @@ let GameOver = new Image();
 let base = new Image();
 let base_long = new Image();
 let Menu = new Image();
-
+let Direction = true;
 bird_image.src = "./Grafics/bird2.png";
 pipe_image.src = "./Grafics/pipe.png";
 pipe_headless.src = "./Grafics/pip-headles.png";
@@ -28,12 +28,25 @@ GameOver.src = "./Grafics/gameover.png";
 base.src = "./Grafics/base.png";
 base_long.src = "./Grafics/base.png";
 Menu.src = "./Grafics/Menu.png";
+// Returns a random integer from 0 to 9:
+function int(){
+  let integer = (Math.floor(Math.random() * (3 - 1) ) + 1)
+  console.log(integer)
+  if (integer === 1){
+    Direction = true
+  }
+  if (integer === 2) {
+    Direction = false
+  }
 
+}
+
+console.log(Direction)
 let bird = {
   Lives: 5,
   x: 20,
   y: 20,
-  vy: 0.09,
+  vy: 0.4,
   ay: 0.04,
   alive: true,
   jump_ready: false,
@@ -43,6 +56,7 @@ let bird = {
   },
   lives: 4,
 };
+
 let obstacle = {
   x: 500,
   y: 0,
@@ -55,27 +69,24 @@ if (localStorage.getItem("Coin")) {
 
 let ctx;
 let scroll = true;
-let move = 0
+let move = 0;
 function MoveImage() {
-  if (bird.alive === true){
+  if (bird.alive === true) {
     move = move - 1.5;
     ctx.drawImage(base, 0 + move, 450);
-    ctx.drawImage(base_long, + move + 300, 450);
+    ctx.drawImage(base_long, +move + 300, 450);
     if (move <= -130) {
-      move = move + 130
+      move = move + 130;
     }
   }
-  console.log(move)
 
   if (bird.alive === false) {
-    return
+    return;
   }
-
 }
 function scrollX(Coin, base) {
   if (scroll === true) {
-
-    obstacle.x = obstacle.x - 1.5;
+    obstacle.x = obstacle.x - 3;
     if (PlayerScore < livePlayerScore) {
       PlayerScore += 1;
     }
@@ -85,7 +96,16 @@ function scrollX(Coin, base) {
     }
   }
 }
+function MoveObstical(obstacle) {
+  if (Direction === true) {
+    obstacle.y = obstacle.y + .5
 
+  }
+  if (Direction === false) {
+    obstacle.y = obstacle.y - .5
+
+  }
+}
 function Die() {
   if (bird.alive === false) {
     ctx.font = "24pt sans-serif";
@@ -124,14 +144,14 @@ function drawframe() {
   draw_player(ctx, bird, bird_image);
   draw_obstacle(ctx, obstacle, pipe_image, pipe_headless);
   Die(ctx, bird, obstacle);
-  CheckObstacle(ctx, obstacle, bird);
+  CheckObstacle(ctx, obstacle, bird, int);
   CheckTopWall(ctx, bird, obstacle);
   Lives(bird);
   CheckBottomWall(ctx, bird);
-  MoveImage()
+  MoveImage();
+  MoveObstical(obstacle);
   localStorage.setItem("Coin", PlayerScore);
   score(livePlayerScore);
-
 
   window.requestAnimationFrame(drawframe);
 }

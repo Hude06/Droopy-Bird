@@ -11,12 +11,14 @@ export function draw_obstacle(ctx, obstacle, pipe_image, pipe_headless) {
   ctx.restore();
 }
 
-export function CheckObstacle(ctx, obstacle, bird) {
+export function CheckObstacle(ctx, obstacle, bird, int) {
   // if x < -1, move column back to the right
   if (obstacle.x <= -1) {
     obstacle.x = 500;
     obstacle.y = Math.floor(Math.random() * 300);
+    int()
   }
+
   if (bird.x >= obstacle.x && bird.x < obstacle.x + 100) {
     if (bird.y < obstacle.y) {
       bird.alive = false;
@@ -25,4 +27,5 @@ export function CheckObstacle(ctx, obstacle, bird) {
       bird.alive = false;
     }
   }
+
 }
