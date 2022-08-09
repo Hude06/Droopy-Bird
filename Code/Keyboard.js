@@ -1,6 +1,6 @@
 export function CheckKeyboard(ctx, bird) {
   if (bird.jump_ready) {
-    bird.vy = bird.vy - 3;
+    bird.vy = bird.vy - 2;
     bird.jump_ready = false;
   }
 }
