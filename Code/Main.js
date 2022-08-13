@@ -22,6 +22,8 @@ let base = new Image();
 let base_long = new Image();
 let Menu = new Image();
 let Background = new Image();
+let BossImage = new Image();
+
 
 let Direction = true;
 bird_image.src = "./Grafics/bird2.png";
@@ -32,6 +34,8 @@ base.src = "./Grafics/base.png";
 base_long.src = "./Grafics/base.png";
 Menu.src = "./Grafics/Menu.png";
 Background.src = "./Grafics/Background.png";
+BossImage.src = "./Grafics/Bird2.png";
+
 
 // Returns a random integer from 0 to 9:
 function int() {
@@ -47,18 +51,20 @@ function int() {
 
 console.log(Direction);
 let bird = {
-  Lives: 5,
   x: 20,
   y: 20,
   vy: 0.4,
-  ay: 0.04,
+  ay: 0.1,
   alive: true,
   jump_ready: false,
   keystate: {
     space: false,
     enter: false,
   },
-  lives: 4,
+};
+let Boss = {
+  x:20,
+  y:100,
 };
 
 let obstacle = {
@@ -75,18 +81,38 @@ let ctx;
 let scroll = true;
 let move = 0;
 function MoveImage() {
-  if (bird.alive === true) {
-    move = move - 1.5;
-    ctx.drawImage(base, 0 + move, 450);
-    ctx.drawImage(base_long, +move + 300, 450);
-    if (move <= -130) {
-      move = move + 130;
-    }
+  move = move - 1.5;
+  ctx.drawImage(base, 11 + move, 450);
+  ctx.drawImage(base_long, +move + 300, 450);
+  if (move <= -130) {
+    move = move +50;
   }
-
   if (bird.alive === false) {
-    return;
+    move = move +1.5;
+
   }
+}
+
+Boss.x = Boss.x += 470
+Boss.y = Boss.y += 50
+function CheckBos() {
+  if (Boss.Level === 10) {
+    BossLevel()
+  
+  }
+}
+
+
+function BossLevel() {
+
+  ctx.save();
+  ctx.translate(Boss.x, Boss.y);
+  ctx.scale(-1, 1);
+  ctx.drawImage(BossImage, 0, 0, 17 * 15, 12 * 15);
+
+  ctx.restore();
+
+
 }
 function scrollX(Coin, base) {
   if (scroll === true) {
@@ -97,8 +123,11 @@ function scrollX(Coin, base) {
       PlayerScore += 1;
     }
     if (bird.x == obstacle.x) {
-      livePlayerScore += 1;
-      Coin.play();
+      if (bird.alive === true) {
+        livePlayerScore += 1;
+        Coin.play()
+    }
+
     }
     ctx.drawImage(Background, BackgroundX, BackgroundY);
   }
@@ -117,11 +146,16 @@ function Die() {
   if (bird.alive === false) {
     ctx.font = "24pt sans-serif";
     ctx.drawImage(GameOver, 150, 0);
-    scroll = false;
-    obstacle.x = 800;
-    bird.vx = 0;
+    obstacle.x = obstacle.x + 3
+    if (Direction === true) {
+    obstacle.y = obstacle.y -0.5
+    }
+    if (Direction === false) {
+      obstacle.y = obstacle.y +0.5
+    
+    }
     bird.vy = 0;
-    bird.y = 8400;
+    bird.ay = 0
     if (SoundPlay === false) {
       BirdDie.play();
       SoundPlay = true;
@@ -139,9 +173,7 @@ function score(hj) {
 function Record(sc) {
   $("#Record").innerText = "Record:" + sc;
 }
-function Lives(bird) {
-  $("#Lives").innerText = "Lives:" + bird.lives;
-}
+
 
 function drawframe() {
   draw_background(ctx, bird, obstacle);
@@ -154,7 +186,6 @@ function drawframe() {
   Die(ctx, bird, obstacle);
   CheckObstacle(ctx, obstacle, bird, int);
   CheckTopWall(ctx, bird, obstacle);
-  Lives(bird);
   CheckBottomWall(ctx, bird);
   MoveImage();
   MoveObstacle(obstacle);
