@@ -24,7 +24,6 @@ let Menu = new Image();
 let Background = new Image();
 let BossImage = new Image();
 
-
 let Direction = true;
 bird_image.src = "./Grafics/bird2.png";
 pipe_image.src = "./Grafics/pipe.png";
@@ -35,7 +34,6 @@ base_long.src = "./Grafics/base.png";
 Menu.src = "./Grafics/Menu.png";
 Background.src = "./Grafics/Background.png";
 BossImage.src = "./Grafics/Bird2.png";
-
 
 // Returns a random integer from 0 to 9:
 function int() {
@@ -63,8 +61,8 @@ let bird = {
   },
 };
 let Boss = {
-  x:20,
-  y:100,
+  x: 20,
+  y: 100,
 };
 
 let obstacle = {
@@ -85,34 +83,28 @@ function MoveImage() {
   ctx.drawImage(base, 11 + move, 450);
   ctx.drawImage(base_long, +move + 300, 450);
   if (move <= -130) {
-    move = move +50;
+    move = move + 50;
   }
   if (bird.alive === false) {
-    move = move +1.5;
-
+    move = move + 1.5;
   }
 }
 
-Boss.x = Boss.x += 470
-Boss.y = Boss.y += 50
+Boss.x = Boss.x += 470;
+Boss.y = Boss.y += 50;
 function CheckBos() {
   if (Boss.Level === 10) {
-    BossLevel()
-  
+    BossLevel();
   }
 }
 
-
 function BossLevel() {
-
   ctx.save();
   ctx.translate(Boss.x, Boss.y);
   ctx.scale(-1, 1);
   ctx.drawImage(BossImage, 0, 0, 17 * 15, 12 * 15);
 
   ctx.restore();
-
-
 }
 function scrollX(Coin, base) {
   if (scroll === true) {
@@ -125,14 +117,12 @@ function scrollX(Coin, base) {
     if (bird.x == obstacle.x) {
       if (bird.alive === true) {
         livePlayerScore += 1;
-        Coin.play()
-    }
-
+        Coin.play();
+      }
     }
     ctx.drawImage(Background, BackgroundX, BackgroundY);
   }
 }
-
 
 function MoveObstacle(obstacle) {
   if (Direction === true) {
@@ -146,16 +136,15 @@ function Die() {
   if (bird.alive === false) {
     ctx.font = "24pt sans-serif";
     ctx.drawImage(GameOver, 150, 0);
-    obstacle.x = obstacle.x + 3
+    obstacle.x = obstacle.x + 3;
     if (Direction === true) {
-    obstacle.y = obstacle.y -0.5
+      obstacle.y = obstacle.y - 0.5;
     }
     if (Direction === false) {
-      obstacle.y = obstacle.y +0.5
-    
+      obstacle.y = obstacle.y + 0.5;
     }
     bird.vy = 0;
-    bird.ay = 0
+    bird.ay = 0;
     if (SoundPlay === false) {
       BirdDie.play();
       SoundPlay = true;
@@ -173,7 +162,6 @@ function score(hj) {
 function Record(sc) {
   $("#Record").innerText = "Record:" + sc;
 }
-
 
 function drawframe() {
   draw_background(ctx, bird, obstacle);
