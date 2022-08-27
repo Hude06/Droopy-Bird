@@ -151,7 +151,8 @@ function MoveObstacle(obstacle) {
   if (Direction === false) {
     obstacle.y = obstacle.y - 0.5;
   }
-  if (obstacle.y === -350) {
+  console.log("Y is " + obstacle.y)
+  if (obstacle.y === 30) {
     Direction = true
   }
   if (obstacle.y === 350) {
