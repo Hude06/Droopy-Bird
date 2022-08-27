@@ -10,11 +10,10 @@ export function draw_obstacle(ctx, obstacle, pipe_image, pipe_headless) {
 
   ctx.restore();
 }
-
-export function CheckObstacle(ctx, obstacle, bird, int) {
+export function CheckObstacle(ctx, obstacle, bird, int, PoleMoved) {
   // if x < -1, move column back to the right
   if (obstacle.x <= -1) {
-    obstacle.x = 500;
+    obstacle.x = 800;
     obstacle.y = Math.floor(Math.random() * 300);
     int()
   }
